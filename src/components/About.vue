@@ -1,5 +1,3 @@
 <template>
-  <v-app
-    >ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜</v-app
-  >
+  <div>This is about Page</div>
 </template>
