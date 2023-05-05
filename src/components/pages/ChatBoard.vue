@@ -46,7 +46,7 @@ const submit = () => {
           <v-card>
             <v-list lines="two">
               <v-list-subheader>{{ card }}</v-list-subheader>
-              <template v-for="(message, index) in messages" :key="message">
+              <template v-for="message in messages" :key="message">
                 <v-list-item>
                   <template v-slot:prepend>
                     <v-avatar color="grey-darken-1"></v-avatar>
@@ -56,7 +56,6 @@ const submit = () => {
                     {{ message }}
                   </v-list-item-subtitle>
                 </v-list-item>
-                <p>{{ index }}</p>
 
                 <v-divider inset></v-divider>
               </template>
