@@ -1,1 +1,5 @@
-<template><v-app>ああああ</v-app></template>
+<template>
+  <v-app
+    >ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜ABOUTページだよ〜〜</v-app
+  >
+</template>

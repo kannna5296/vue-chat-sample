@@ -6,22 +6,22 @@ import UserList from "../components/UserList.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "UserList",
+    name: "userlist",
     component: UserList,
   },
   {
     path: "/about",
-    name: "About",
+    name: "about",
     component: About,
   },
   {
-    path: "/hoge",
-    name: "UserList",
+    path: "/trash",
+    name: "Trash",
     component: UserList,
   },
   {
-    path: "/hoge2",
-    name: "About",
+    path: "/spam",
+    name: "Spam",
     component: About,
   },
 ];

@@ -14,13 +14,14 @@ const links: Ref<Link[]> = ref([
     to: "/",
   },
   { icon: "mdi-send", text: "Send", to: "/about" },
-  { icon: "mdi-delete", text: "Trash", to: "/hoge" },
-  { icon: "mdi-alert-octagon", text: "Spam", to: "/hoge2" },
+  { icon: "mdi-delete", text: "Trash", to: "/trash" },
+  { icon: "mdi-alert-octagon", text: "Spam", to: "/spam" },
 ]);
 </script>
 
 <template>
   <v-app>
+    <RouterView />
     <v-navigation-drawer v-model="drawer">
       <v-sheet color="grey-lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
