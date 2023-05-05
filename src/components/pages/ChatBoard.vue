@@ -2,8 +2,8 @@
 import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
-import { chatsConverter } from "../../firebase/converter/ChatsConverter.ts";
+import { db } from "@/firebase/firebase.ts";
+import { chatsConverter } from "@/firebase/converter/ChatsConverter.ts";
 
 const cards = ref(["today"]);
 
