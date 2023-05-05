@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
-const cards = ref(["today", "yesterday"]);
+const cards = ref(["today"]);
+
+const route = useRoute();
+const userId = route.query.user_id;
 </script>
 
 <!-- 公式(https://vuetifyjs.com/en/wireframes/inbox/)をベースとする -->
 <template>
   <v-main>
+    <div>ユーザID: {{ userId }}</div>
     <v-container class="py-8 px-6" fluid>
       <v-row>
         <v-col v-for="card in cards" :key="card" cols="12">
