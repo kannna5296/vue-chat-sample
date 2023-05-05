@@ -6,12 +6,17 @@ const drawer = ref();
 type Link = {
   icon: string;
   text: string;
+  to: string;
 };
 const links: Ref<Link[]> = ref([
-  { icon: "mdi-inbox-arrow-down", text: "Inbox" },
-  { icon: "mdi-send", text: "Send" },
-  { icon: "mdi-delete", text: "Trash" },
-  { icon: "mdi-alert-octagon", text: "Spam" },
+  {
+    icon: "mdi-inbox-arrow-down",
+    text: "Inbox",
+    to: "https://reffect.co.jp/vue/vue3-composition#ref",
+  },
+  { icon: "mdi-send", text: "Send", to: "/" },
+  { icon: "mdi-delete", text: "Trash", to: "/" },
+  { icon: "mdi-alert-octagon", text: "Spam", to: "/" },
 ]);
 </script>
 
@@ -28,14 +33,12 @@ const links: Ref<Link[]> = ref([
       <v-divider></v-divider>
 
       <v-list>
-        <v-list-item v-for="link in links" :key="link.icon" link>
-          <router-link to="/">
-            <template v-slot:prepend>
-              <v-icon>{{ link.icon }}</v-icon>
-            </template>
+        <v-list-item v-for="link in links" :key="link.icon" link :to="link.to">
+          <template v-slot:prepend>
+            <v-icon>{{ link.icon }}</v-icon>
+          </template>
 
-            <v-list-item-title>{{ link.text }}</v-list-item-title>
-          </router-link>
+          <v-list-item-title>{{ link.text }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
