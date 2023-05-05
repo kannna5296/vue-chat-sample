@@ -21,7 +21,7 @@ const links: Ref<Link[]> = ref([
 
 <template>
   <v-app>
-    <RouterView />
+    <!-- こいつ↓もRouterViewの中に入れられない？？ -->
     <v-navigation-drawer v-model="drawer">
       <v-sheet color="grey-lighten-4" class="pa-4">
         <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
@@ -41,6 +41,7 @@ const links: Ref<Link[]> = ref([
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <RouterView />
   </v-app>
 </template>
 
