@@ -8,8 +8,10 @@ type Link = {
   text: string;
 };
 const links: Ref<Link[]> = ref([
-  { icon: "mdi-send", text: "hoge" },
-  { icon: "mdi-send", text: "hoge2" },
+  { icon: "mdi-inbox-arrow-down", text: "Inbox" },
+  { icon: "mdi-send", text: "Send" },
+  { icon: "mdi-delete", text: "Trash" },
+  { icon: "mdi-alert-octagon", text: "Spam" },
 ]);
 </script>
 
@@ -27,11 +29,13 @@ const links: Ref<Link[]> = ref([
 
       <v-list>
         <v-list-item v-for="link in links" :key="link.icon" link>
-          <template v-slot:prepend>
-            <v-icon>{{ link.icon }}</v-icon>
-          </template>
+          <router-link to="/">
+            <template v-slot:prepend>
+              <v-icon>{{ link.icon }}</v-icon>
+            </template>
 
-          <v-list-item-title>{{ link.text }}</v-list-item-title>
+            <v-list-item-title>{{ link.text }}</v-list-item-title>
+          </router-link>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
