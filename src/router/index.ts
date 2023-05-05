@@ -1,8 +1,8 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 // import Chat from "../components/ChatComponent.vue";
-import About from "../components/About.vue";
-import UserList from "../components/pages/UserList.vue";
-import ChatBoard from "../components/pages/ChatBoard.vue";
+import About from "@/components/About.vue";
+import UserList from "@/components/pages/UserList.vue";
+import ChatBoard from "@/components/pages/ChatBoard.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
