@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 
 const cards = ref(["today"]);
@@ -13,7 +13,20 @@ const clear = () => {
 
 const submit = () => {
   console.log("Submit!");
+  console.log("chatData: ", chatData.value);
 };
+
+const chatData = ref("");
+
+const isValidText = computed(() => {
+  console.log("computed");
+  if (chatData.value.length <= 0) {
+    console.log("invalid!");
+    return false;
+  }
+  console.log("valid!");
+  return true;
+});
 </script>
 
 <!-- 公式(https://vuetifyjs.com/en/wireframes/inbox/)をベースとする -->
@@ -50,16 +63,19 @@ const submit = () => {
 
         <v-col>
           <v-textarea
+            v-model="chatData"
             prepend-inner-icon="mdi-comment"
             class="mx-2"
             rows="3"
             auto-grow
+            @change="isValidText"
           ></v-textarea>
           <v-btn
             class="mr-4"
             color="purple-lighten-2"
             type="submit"
             @click="submit"
+            :disabled="!isValidText"
           >
             submit
           </v-btn>
