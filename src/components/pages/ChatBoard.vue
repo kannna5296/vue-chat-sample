@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import { chatsConverter } from "@/firebase/converter/ChatsConverter.ts";
+import SideBar from "@/components/SideBar.vue";
 
 const cards = ref(["today"]);
 
@@ -49,6 +50,7 @@ const submit = () => {
 
 <!-- 公式(https://vuetifyjs.com/en/wireframes/inbox/)をベースとする -->
 <template>
+  <SideBar />
   <v-main>
     <div>ユーザID: {{ userId }}</div>
     <v-container class="py-8 px-6" fluid>

@@ -1,4 +1,9 @@
+<script setup lang="ts">
+import SideBar from "@/components/SideBar.vue";
+</script>
+
 <template>
+  <SideBar />
   <v-app-bar app extended>
     <v-toolbar-title>ユーザ一覧</v-toolbar-title>
 
@@ -21,5 +26,3 @@
     </v-container>
   </v-main>
 </template>
-
-<script setup lang="ts"></script>
