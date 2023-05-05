@@ -1,38 +1,48 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { chatsConverter } from "../../firebase/converter/ChatsConverter.ts";
 
 const cards = ref(["today"]);
 
 const route = useRoute();
 const userId = route.query.user_id;
 
-const chatData = ref("");
+const inputtingChatData = ref("");
 
-//Backend介さない場合の初期値
-const messages = ref([
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique",
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique",
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique",
-]);
+const messages: Ref<string[]> = ref([]);
+
+onMounted(() => {
+  getChats();
+});
+
+const getChats = async () => {
+  //もうちょいスッキリ書きたい
+  const chatsCollection = collection(db, "chats").withConverter(chatsConverter);
+  const chatsSanpShot = await getDocs(chatsCollection);
+
+  const res = chatsSanpShot.docs.map((docs) => docs.data());
+  res.forEach((value) => {
+    messages.value.push(value.message);
+  });
+};
 
 const isValidText = computed(() => {
-  console.log("computed");
-  if (chatData.value.length <= 0) {
-    console.log("invalid!");
+  if (inputtingChatData.value.length <= 0) {
     return false;
   }
-  console.log("valid!");
   return true;
 });
 
 const clear = () => {
-  chatData.value = "";
+  inputtingChatData.value = "";
 };
 
 const submit = () => {
-  messages.value.push(chatData.value);
-  chatData.value = "";
+  messages.value.push(inputtingChatData.value);
+  inputtingChatData.value = "";
 };
 </script>
 
@@ -65,7 +75,7 @@ const submit = () => {
 
         <v-col>
           <v-textarea
-            v-model="chatData"
+            v-model="inputtingChatData"
             prepend-inner-icon="mdi-comment"
             class="mx-2"
             rows="3"
