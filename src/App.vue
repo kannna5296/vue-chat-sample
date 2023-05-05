@@ -14,8 +14,8 @@ const links: Ref<Link[]> = ref([
     to: "/",
   },
   { icon: "mdi-send", text: "Send", to: "/about" },
-  { icon: "mdi-delete", text: "Trash", to: "/trash" },
-  { icon: "mdi-alert-octagon", text: "Spam", to: "/spam" },
+  { icon: "mdi-delete", text: "Trash", to: "/" },
+  { icon: "mdi-alert-octagon", text: "Spam", to: "/" },
 ]);
 </script>
 
