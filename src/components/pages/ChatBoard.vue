@@ -22,11 +22,12 @@ const getChats = async () => {
   //もうちょいスッキリ書きたい
   const chatsCollection = collection(db, "chats").withConverter(chatsConverter);
   const chatsSanpShot = await getDocs(chatsCollection);
-
   const res = chatsSanpShot.docs.map((docs) => docs.data());
-  res.forEach((value) => {
-    messages.value.push(value.message);
+
+  const messagesFromDb = res.map((value) => {
+    return value.message;
   });
+  messages.value.push(...messagesFromDb);
 };
 
 const isValidText = computed(() => {
