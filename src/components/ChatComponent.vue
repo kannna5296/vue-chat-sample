@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { ref } from "vue";
+
+const cards = ref([]);
+</script>
+
 <!-- 公式(https://vuetifyjs.com/en/wireframes/inbox/)をベースとする -->
 <template>
   <v-app id="inspire">
@@ -46,18 +52,3 @@
     </v-main>
   </v-app>
 </template>
-
-<script>
-export default {
-  data: () => ({
-    cards: ["Today", "Yesterday"],
-    // drawer: null,
-    // links: [
-    //   ["mdi-inbox-arrow-down", "Inbox"],
-    //   ["mdi-send", "Send"],
-    //   ["mdi-delete", "Trash"],
-    //   ["mdi-alert-octagon", "Spam"],
-    // ],
-  }),
-};
-</script>

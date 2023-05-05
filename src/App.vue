@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
-import Chat from "@/components/Chat.vue";
 
 const drawer = ref();
 type Link = {
@@ -12,16 +11,15 @@ const links: Ref<Link[]> = ref([
   {
     icon: "mdi-inbox-arrow-down",
     text: "Inbox",
-    to: "https://reffect.co.jp/vue/vue3-composition#ref",
+    to: "/",
   },
-  { icon: "mdi-send", text: "Send", to: "/" },
-  { icon: "mdi-delete", text: "Trash", to: "/" },
-  { icon: "mdi-alert-octagon", text: "Spam", to: "/" },
+  { icon: "mdi-send", text: "Send", to: "/about" },
+  { icon: "mdi-delete", text: "Trash", to: "/hoge" },
+  { icon: "mdi-alert-octagon", text: "Spam", to: "/hoge2" },
 ]);
 </script>
 
 <template>
-  <Chat />
   <v-app>
     <v-navigation-drawer v-model="drawer">
       <v-sheet color="grey-lighten-4" class="pa-4">

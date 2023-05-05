@@ -1,22 +1,33 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
-import Chat from "../components/Chat.vue";
+// import Chat from "../components/ChatComponent.vue";
 import About from "../components/About.vue";
+import UserList from "../components/UserList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: Chat,
+    name: "UserList",
+    component: UserList,
   },
   {
-    path: "/",
+    path: "/about",
+    name: "About",
+    component: About,
+  },
+  {
+    path: "/hoge",
+    name: "UserList",
+    component: UserList,
+  },
+  {
+    path: "/hoge2",
     name: "About",
     component: About,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory("http://localhost:5173"),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
