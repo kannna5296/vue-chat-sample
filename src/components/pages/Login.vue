@@ -5,19 +5,15 @@ import { ref } from "vue";
 const email = ref("");
 const password = ref("");
 
-const requiredValidation = (value: string) => !!value || "Name is required";
-const limitLengthValidation = (value: string) =>
-  (value && value.length <= 10) || "Name is required";
-const emailRules = [requiredValidation, limitLengthValidation];
-const passwordRules = [requiredValidation, limitLengthValidation];
+const emailRequiredValidation = (value: string) =>
+  !!value || "メールアドレスを入力してください。";
+const emailFormValidation = (value: string) =>
+  /.+@.+\..+/.test(value) || "メールアドレスの形式が不正です";
+const emailRules = [emailRequiredValidation, emailFormValidation];
 
-const valid = ref(true);
-
-const validate = async () => {
-  //   const valid = await validate();
-  //   if (valid) alert("Form is valid");
-  valid.value = true;
-};
+const passwordRequiredValidation = (value: string) =>
+  !!value || "パスワードを入力してください。";
+const passwordRules = [passwordRequiredValidation];
 
 const reset = async () => {
   reset();
