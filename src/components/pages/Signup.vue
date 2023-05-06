@@ -1,6 +1,11 @@
 <!-- 元ネタ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/v-form/misc-exposed.vue -->
 <script setup lang="ts">
 import { ref } from "vue";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 const email = ref("");
 const password = ref("");
@@ -25,6 +30,21 @@ const nameRequiredValidation = (value: string) =>
 const nameLengthLimitValidation = (value: string) =>
   (value && value.length <= 10) || "お名前は10文字以下で入力してください。";
 const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
+
+const submit = async () => {
+  try {
+    const auth = getAuth();
+    await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    ).then((userCredential) => {
+      updateProfile(userCredential.user, { displayName: name.value }); //displayNameを更新する
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
 </script>
 
 <template>
@@ -60,7 +80,7 @@ const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
           hint="Enter your password to access this website"
           required
         ></v-text-field>
-        <v-btn color="success" :disabled="!valid">SIGNUP</v-btn>
+        <v-btn color="success" :disabled="!valid" @click="submit">SIGNUP</v-btn>
         <v-btn>CLEAR</v-btn>
       </v-form>
     </v-card>
