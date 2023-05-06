@@ -55,44 +55,59 @@ const resetValidation = async () => {
 </script>
 
 <template>
-  <v-sheet width="300" class="mx-auto">
-    <v-form ref="form">
-      <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
+  <div class="login-container">
+    <v-card class="login-form">
+      <v-card-title>Login</v-card-title>
+      <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
+      <v-form ref="form">
+        <v-text-field
+          v-model="name"
+          :counter="10"
+          :rules="nameRules"
+          label="Name"
+          required
+        ></v-text-field>
 
-      <v-select
-        v-model="select"
-        :items="items"
-        :rules="[(v) => !!v || 'Item is required']"
-        label="Item"
-        required
-      ></v-select>
+        <v-select
+          v-model="select"
+          :items="items"
+          :rules="[(v) => !!v || 'Item is required']"
+          label="Item"
+          required
+        ></v-select>
 
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[(v) => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
-        required
-      ></v-checkbox>
+        <v-checkbox
+          v-model="checkbox"
+          :rules="[(v) => !!v || 'You must agree to continue!']"
+          label="Do you agree?"
+          required
+        ></v-checkbox>
 
-      <div class="d-flex flex-column">
-        <v-btn color="success" class="mt-4" block @click="validate">
-          Validate
-        </v-btn>
+        <div class="d-flex flex-column">
+          <v-btn color="success" class="mt-4" block @click="validate">
+            Validate
+          </v-btn>
 
-        <v-btn color="error" class="mt-4" block @click="reset">
-          Reset Form
-        </v-btn>
+          <v-btn color="error" class="mt-4" block @click="reset">
+            Reset Form
+          </v-btn>
 
-        <v-btn color="warning" class="mt-4" block @click="resetValidation">
-          Reset Validation
-        </v-btn>
-      </div>
-    </v-form>
-  </v-sheet>
+          <v-btn color="warning" class="mt-4" block @click="resetValidation">
+            Reset Validation
+          </v-btn>
+        </div>
+      </v-form>
+    </v-card>
+  </div>
 </template>
+
+<style scoped>
+.login-container {
+  background-color: rgb(255, 178, 171);
+}
+.login-form {
+  margin: 150px auto;
+  padding: 30px;
+  width: 70%;
+}
+</style>
