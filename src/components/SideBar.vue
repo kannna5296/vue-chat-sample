@@ -4,6 +4,7 @@ import { getAuth, signOut } from "firebase/auth";
 import router from "@/router/index.ts";
 
 const drawer = ref();
+//TODO userっていう型で(mail,nameを持たせたい)
 const email = ref("");
 
 type Link = {
