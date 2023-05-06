@@ -32,6 +32,9 @@ const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
     <v-card class="signup-form">
       <v-card-title>Signup</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
+      <v-btn variant="text" color="pink-darken-4" to="login"
+        >すでに登録済みの方はこちら</v-btn
+      >
       <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="name"
@@ -57,7 +60,7 @@ const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
           hint="Enter your password to access this website"
           required
         ></v-text-field>
-        <v-btn color="success" :disabled="!valid">LOGIN</v-btn>
+        <v-btn color="success" :disabled="!valid">SIGNUP</v-btn>
         <v-btn>CLEAR</v-btn>
       </v-form>
     </v-card>
@@ -66,7 +69,7 @@ const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
 
 <style scoped>
 .signup-container {
-  background-color: rgb(203, 171, 255);
+  background-color: rgb(183, 140, 253);
   width: 100%;
   height: 100%;
 }
