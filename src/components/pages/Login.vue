@@ -20,8 +20,12 @@ const passwordRules = [passwordRequiredValidation];
 <template>
   <div class="login-container">
     <v-card class="login-form">
+      <!-- TODOタイトルとサブタイトルを中央よせする -->
       <v-card-title>Login</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
+      <v-btn variant="text" color="pink-darken-4" to="signup"
+        >新規登録はこちら</v-btn
+      >
       <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="email"
@@ -48,7 +52,7 @@ const passwordRules = [passwordRequiredValidation];
 
 <style scoped>
 .login-container {
-  background-color: rgb(255, 178, 171);
+  background-color: #f8bbd0;
   width: 100%;
   height: 100%;
 }
