@@ -32,18 +32,14 @@ const nameLengthLimitValidation = (value: string) =>
 const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
 
 const submit = async () => {
-  try {
-    const auth = getAuth();
-    await createUserWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    ).then((userCredential) => {
+  const auth = getAuth();
+  await createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then((userCredential) => {
       updateProfile(userCredential.user, { displayName: name.value }); //displayNameを更新する
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  } catch (e) {
-    console.log(e);
-  }
 };
 </script>
 
