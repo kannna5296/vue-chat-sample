@@ -6,6 +6,7 @@ import router from "@/router/index.ts";
 const drawer = ref();
 //TODO userっていう型で(mail,nameを持たせたい)
 const displayName = ref("");
+const fileInput = ref();
 
 type Link = {
   icon: string;
@@ -35,6 +36,10 @@ const logout = () => {
     });
 };
 
+const changeIcon = () => {
+  fileInput.value.click();
+};
+
 onMounted(() => {
   const sessionUser = sessionStorage.getItem("user");
   if (sessionUser) {
@@ -49,7 +54,15 @@ onMounted(() => {
 <template>
   <v-navigation-drawer v-model="drawer">
     <v-sheet color="grey-lighten-4" class="pa-4">
-      <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
+      <v-avatar color="indigo">
+        <input
+          type="file"
+          style="display: none"
+          accept="image/jpeg,image/jpg,image/png"
+          ref="fileInput"
+        />
+        <v-icon icon="mdi-account-circle" @click="changeIcon"></v-icon>
+      </v-avatar>
 
       <div>{{ displayName }}</div>
     </v-sheet>
@@ -74,3 +87,11 @@ onMounted(() => {
     </v-list>
   </v-navigation-drawer>
 </template>
+
+<style scoped>
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+</style>
