@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
+import { getAuth, signOut } from "firebase/auth";
+import router from "@/router/index.ts";
 
 const drawer = ref();
 type Link = {
@@ -14,9 +16,20 @@ const links: Ref<Link[]> = ref([
     to: "/",
   },
   { icon: "mdi-send", text: "Send", to: "/about" },
-  { icon: "mdi-delete", text: "Trash", to: "/" },
-  { icon: "mdi-alert-octagon", text: "Spam", to: "/" },
 ]);
+
+const logout = () => {
+  console.log("logout!");
+  const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      localStorage.message = "ログアウトに成功しました";
+      router.push("/login");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 </script>
 <template>
   <v-navigation-drawer v-model="drawer">
@@ -35,6 +48,13 @@ const links: Ref<Link[]> = ref([
         </template>
 
         <v-list-item-title>{{ link.text }}</v-list-item-title>
+      </v-list-item>
+      <v-list-item @click="logout">
+        <template v-slot:prepend>
+          <v-icon>mdi-logout</v-icon>
+        </template>
+
+        <v-list-item-title>Logout</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
