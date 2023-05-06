@@ -43,8 +43,12 @@ const passwordRules = [passwordRequiredValidation];
           hint="Enter your password to access this website"
           required
         ></v-text-field>
-        <v-btn color="success" :disabled="!valid">LOGIN</v-btn>
-        <v-btn>CLEAR</v-btn>
+        <div class="button-container">
+          <v-btn class="login-button" color="success" :disabled="!valid"
+            >LOGIN</v-btn
+          >
+          <v-btn class="clear-button">CLEAR</v-btn>
+        </div>
       </v-form>
     </v-card>
   </div>
@@ -60,5 +64,14 @@ const passwordRules = [passwordRequiredValidation];
   margin: 150px auto;
   padding: 30px;
   width: 70%;
+}
+
+.button-container {
+  margin-bottom: 15px;
+}
+
+.clear-button,
+.login-button {
+  margin: 0 6px;
 }
 </style>

@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import router from "@/router/index.ts";
 
 const email = ref("");
 const password = ref("");
@@ -36,6 +37,7 @@ const submit = async () => {
   await createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       updateProfile(userCredential.user, { displayName: name.value }); //displayNameを更新する
+      router.push("/login");
     })
     .catch((error) => {
       console.log(error);
@@ -51,6 +53,7 @@ const submit = async () => {
       <v-btn variant="text" color="pink-darken-4" to="login"
         >すでに登録済みの方はこちら</v-btn
       >
+
       <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="name"
@@ -76,8 +79,17 @@ const submit = async () => {
           hint="Enter your password to access this website"
           required
         ></v-text-field>
-        <v-btn color="success" :disabled="!valid" @click="submit">SIGNUP</v-btn>
-        <v-btn>CLEAR</v-btn>
+        <div class="button-container">
+          <v-btn
+            class="signup-button"
+            color="success"
+            :disabled="!valid"
+            @click="submit"
+            >SIGNUP</v-btn
+          >
+          <v-btn class="clear-button">CLEAR</v-btn>
+        </div>
+        <v-alert dense outlined type="error">球審の白井です</v-alert>
       </v-form>
     </v-card>
   </div>
@@ -93,5 +105,14 @@ const submit = async () => {
   margin: 150px auto;
   padding: 30px;
   width: 70%;
+}
+
+.button-container {
+  margin-bottom: 15px;
+}
+
+.clear-button,
+.signup-button {
+  margin: 0 6px;
 }
 </style>
