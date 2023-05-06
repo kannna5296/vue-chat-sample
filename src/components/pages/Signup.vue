@@ -4,25 +4,43 @@ import { ref } from "vue";
 
 const email = ref("");
 const password = ref("");
+const name = ref("");
 const valid = ref(true);
 
+// 「メール」バリデーション
 const emailRequiredValidation = (value: string) =>
   !!value || "メールアドレスを入力してください。";
 const emailFormValidation = (value: string) =>
   /.+@.+\..+/.test(value) || "メールアドレスの形式が不正です";
 const emailRules = [emailRequiredValidation, emailFormValidation];
 
+// 「パスワード」バリデーション
 const passwordRequiredValidation = (value: string) =>
   !!value || "パスワードを入力してください。";
 const passwordRules = [passwordRequiredValidation];
+
+// 「名前」バリデーション
+const nameRequiredValidation = (value: string) =>
+  !!value || "お名前を入力してください。";
+const nameLengthLimitValidation = (value: string) =>
+  (value && value.length <= 10) || "お名前は10文字以下で入力してください。";
+const nameRules = [nameRequiredValidation, nameLengthLimitValidation];
 </script>
 
 <template>
-  <div class="login-container">
-    <v-card class="login-form">
-      <v-card-title>Login</v-card-title>
+  <div class="signup-container">
+    <v-card class="signup-form">
+      <v-card-title>Signup</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
       <v-form ref="form" v-model="valid">
+        <v-text-field
+          v-model="name"
+          :rules="nameRules"
+          label="Username"
+          hint="Enter your name to access this website"
+          required
+        ></v-text-field>
+
         <v-text-field
           v-model="email"
           :rules="emailRules"
@@ -47,12 +65,12 @@ const passwordRules = [passwordRequiredValidation];
 </template>
 
 <style scoped>
-.login-container {
-  background-color: rgb(255, 178, 171);
+.signup-container {
+  background-color: rgb(203, 171, 255);
   width: 100%;
   height: 100%;
 }
-.login-form {
+.signup-form {
   margin: 150px auto;
   padding: 30px;
   width: 70%;
