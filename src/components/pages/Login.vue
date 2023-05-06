@@ -4,6 +4,7 @@ import { ref } from "vue";
 
 const email = ref("");
 const password = ref("");
+const valid = ref(true);
 
 const emailRequiredValidation = (value: string) =>
   !!value || "メールアドレスを入力してください。";
@@ -14,13 +15,6 @@ const emailRules = [emailRequiredValidation, emailFormValidation];
 const passwordRequiredValidation = (value: string) =>
   !!value || "パスワードを入力してください。";
 const passwordRules = [passwordRequiredValidation];
-
-const reset = async () => {
-  reset();
-};
-const resetValidation = async () => {
-  resetValidation();
-};
 </script>
 
 <template>
@@ -28,7 +22,7 @@ const resetValidation = async () => {
     <v-card class="login-form">
       <v-card-title>Login</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
-      <v-form ref="form">
+      <v-form ref="form" v-model="valid">
         <v-text-field
           v-model="email"
           :rules="emailRules"
@@ -45,22 +39,9 @@ const resetValidation = async () => {
           hint="Enter your password to access this website"
           required
         ></v-text-field>
-
-        <!-- <div class="d-flex flex-column"> -->
-        <!-- <v-btn color="success" class="mt-4" block @click="validate">
-            Validate
-          </v-btn>
-
-          <v-btn color="error" class="mt-4" block @click="reset">
-            Reset Form
-          </v-btn>
-
-          <v-btn color="warning" class="mt-4" block @click="resetValidation">
-            Reset Validation
-          </v-btn> -->
-        <v-btn color="success">LOGIN</v-btn>
+        <v-btn color="success" :disabled="!valid">LOGIN</v-btn>
         <v-btn>CLEAR</v-btn>
-        <!-- </div> -->
+        {{ valid }}
       </v-form>
     </v-card>
   </div>
