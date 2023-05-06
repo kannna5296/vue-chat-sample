@@ -1,10 +1,11 @@
 <!-- 元ネタ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/v-form/misc-exposed.vue -->
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const email = ref("");
 const password = ref("");
 const valid = ref(true);
+const message = ref("");
 
 const emailRequiredValidation = (value: string) =>
   !!value || "メールアドレスを入力してください。";
@@ -15,11 +16,18 @@ const emailRules = [emailRequiredValidation, emailFormValidation];
 const passwordRequiredValidation = (value: string) =>
   !!value || "パスワードを入力してください。";
 const passwordRules = [passwordRequiredValidation];
+
+onMounted(() => {
+  if (localStorage.message) {
+    message.value = localStorage.message;
+    localStorage.message = "";
+  }
+});
 </script>
 
 <template>
   <div class="login-container">
-    <v-card class="login-form">
+    <v-card :elevation="10" class="login-form">
       <!-- TODOタイトルとサブタイトルを中央よせする -->
       <v-card-title>Login</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
@@ -49,6 +57,9 @@ const passwordRules = [passwordRequiredValidation];
           >
           <v-btn class="clear-button">CLEAR</v-btn>
         </div>
+        <v-alert v-if="message" dense outlined type="success">{{
+          message
+        }}</v-alert>
       </v-form>
     </v-card>
   </div>
@@ -56,7 +67,6 @@ const passwordRules = [passwordRequiredValidation];
 
 <style scoped>
 .login-container {
-  background-color: #f8bbd0;
   width: 100%;
   height: 100%;
 }

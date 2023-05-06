@@ -38,6 +38,11 @@ const submit = async () => {
   await createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       updateProfile(userCredential.user, { displayName: name.value }); //displayNameを更新する
+
+      // LocalStorage使う理由はよくわからない
+      localStorage.message = "ユーザの新規作成に成功しました";
+
+      // TOPにリダイレクト処理
       router.push("/login");
     })
     .catch((error) => {
@@ -49,7 +54,7 @@ const submit = async () => {
 
 <template>
   <div class="signup-container">
-    <v-card class="signup-form">
+    <v-card :elevation="10" class="signup-form">
       <v-card-title>Signup</v-card-title>
       <v-card-subtitle>ユーザ情報を入力ください</v-card-subtitle>
       <v-btn variant="text" color="pink-darken-4" to="login"
@@ -101,7 +106,6 @@ const submit = async () => {
 
 <style scoped>
 .signup-container {
-  background-color: rgb(183, 140, 253);
   width: 100%;
   height: 100%;
 }
