@@ -34,6 +34,15 @@ const submit = async () => {
       console.log("success!!");
       console.log(userCredential.user);
       errorMessage.value = "";
+
+      const authInfo = {
+        displayName: userCredential.user.displayName,
+        email: userCredential.user.email,
+        uid: userCredential.user.uid,
+        refreshToken: userCredential.user.refreshToken,
+      };
+      sessionStorage.setItem("user", JSON.stringify(authInfo));
+
       router.push("/");
     })
     .catch((error) => {

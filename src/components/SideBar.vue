@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { ref, Ref, onMounted } from "vue";
 import { getAuth, signOut } from "firebase/auth";
 import router from "@/router/index.ts";
 
 const drawer = ref();
+const email = ref("");
+
 type Link = {
   icon: string;
   text: string;
@@ -24,19 +26,31 @@ const logout = () => {
   signOut(auth)
     .then(() => {
       localStorage.message = "ログアウトに成功しました";
+      sessionStorage.removeItem("user");
       router.push("/login");
     })
     .catch((error) => {
       console.log(error);
     });
 };
+
+onMounted(() => {
+  const sessionUser = sessionStorage.getItem("user");
+  if (sessionUser) {
+    const user = JSON.parse(sessionUser);
+    console.log("mouted!", user.email);
+    email.value = user.email;
+  } else {
+    router.push("/");
+  }
+});
 </script>
 <template>
   <v-navigation-drawer v-model="drawer">
     <v-sheet color="grey-lighten-4" class="pa-4">
       <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
 
-      <div>john@google.com</div>
+      <div>{{ email }}</div>
     </v-sheet>
 
     <v-divider></v-divider>

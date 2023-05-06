@@ -4,7 +4,6 @@ import UserList from "@/components/pages/UserList.vue";
 import ChatBoard from "@/components/pages/ChatBoard.vue";
 import Login from "@/components/pages/Login.vue";
 import Signup from "@/components/pages/Signup.vue";
-import { getAuth } from "firebase/auth";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -52,17 +51,15 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth) {
     // このルートはログインされているかどうか認証が必要です。
     // もしされていないならば、ログインページにリダイレクトします。
-    const auth = getAuth();
-    auth.onAuthStateChanged((user) => {
-      if (!user) {
-        next({
-          path: "/login",
-          query: { redirect: to.fullPath },
-        });
-      } else {
-        next();
-      }
-    });
+    const user = sessionStorage.getItem("user");
+    if (!user) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
   } else {
     next();
   }
