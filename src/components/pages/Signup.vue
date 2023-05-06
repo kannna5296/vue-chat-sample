@@ -40,7 +40,7 @@ const submit = async () => {
       updateProfile(userCredential.user, { displayName: name.value }); //displayNameを更新する
 
       // LocalStorage使う理由はよくわからない
-      localStorage.message = "ユーザの新規作成に成功しました";
+      localStorage.message = "ユーザの新規作成に成功しました。";
 
       // TOPにリダイレクト処理
       router.push("/login");

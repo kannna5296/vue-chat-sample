@@ -1,11 +1,14 @@
 <!-- 元ネタ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/v-form/misc-exposed.vue -->
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import router from "@/router/index.ts";
 
 const email = ref("");
 const password = ref("");
 const valid = ref(true);
 const message = ref("");
+const errorMessage = ref("");
 
 const emailRequiredValidation = (value: string) =>
   !!value || "メールアドレスを入力してください。";
@@ -23,6 +26,21 @@ onMounted(() => {
     localStorage.message = "";
   }
 });
+
+const submit = async () => {
+  const auth = getAuth();
+  await signInWithEmailAndPassword(auth, email.value, password.value)
+    .then((userCredential) => {
+      console.log("success!!");
+      console.log(userCredential.user);
+      errorMessage.value = "";
+      router.push("/");
+    })
+    .catch((error) => {
+      console.log(error);
+      errorMessage.value = "ログインに失敗しました。";
+    });
+};
 </script>
 
 <template>
@@ -52,13 +70,20 @@ onMounted(() => {
           required
         ></v-text-field>
         <div class="button-container">
-          <v-btn class="login-button" color="success" :disabled="!valid"
+          <v-btn
+            class="login-button"
+            color="success"
+            :disabled="!valid"
+            @click="submit"
             >LOGIN</v-btn
           >
           <v-btn class="clear-button">CLEAR</v-btn>
         </div>
         <v-alert v-if="message" dense outlined type="success">{{
           message
+        }}</v-alert>
+        <v-alert v-if="errorMessage" dense outlined type="error">{{
+          errorMessage
         }}</v-alert>
       </v-form>
     </v-card>
