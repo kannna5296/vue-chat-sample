@@ -1,8 +1,8 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
-// import Chat from "../components/ChatComponent.vue";
 import About from "@/components/About.vue";
 import UserList from "@/components/pages/UserList.vue";
 import ChatBoard from "@/components/pages/ChatBoard.vue";
+import Login from "@/components/pages/Login.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/spam",
     name: "Spam",
     component: About,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
 ];
 
