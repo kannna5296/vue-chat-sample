@@ -5,7 +5,7 @@ import router from "@/router/index.ts";
 
 const drawer = ref();
 //TODO userっていう型で(mail,nameを持たせたい)
-const email = ref("");
+const displayName = ref("");
 
 type Link = {
   icon: string;
@@ -40,7 +40,7 @@ onMounted(() => {
   if (sessionUser) {
     const user = JSON.parse(sessionUser);
     console.log("mouted!", user.email);
-    email.value = user.email;
+    displayName.value = user.displayName;
   } else {
     router.push("/");
   }
@@ -51,7 +51,7 @@ onMounted(() => {
     <v-sheet color="grey-lighten-4" class="pa-4">
       <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
 
-      <div>{{ email }}</div>
+      <div>{{ displayName }}</div>
     </v-sheet>
 
     <v-divider></v-divider>
