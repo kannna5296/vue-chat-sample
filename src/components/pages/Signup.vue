@@ -12,6 +12,7 @@ const email = ref("");
 const password = ref("");
 const name = ref("");
 const valid = ref(true);
+const errorMessage = ref("");
 
 // 「メール」バリデーション
 const emailRequiredValidation = (value: string) =>
@@ -41,6 +42,7 @@ const submit = async () => {
     })
     .catch((error) => {
       console.log(error);
+      errorMessage.value = "ユーザーの新規作成に失敗しました。";
     });
 };
 </script>
@@ -89,7 +91,9 @@ const submit = async () => {
           >
           <v-btn class="clear-button">CLEAR</v-btn>
         </div>
-        <v-alert dense outlined type="error">球審の白井です</v-alert>
+        <v-alert v-if="errorMessage" dense outlined type="error">{{
+          errorMessage
+        }}</v-alert>
       </v-form>
     </v-card>
   </div>
