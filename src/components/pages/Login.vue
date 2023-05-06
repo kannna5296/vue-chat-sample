@@ -1,3 +1,4 @@
+<!-- 元ネタ https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/examples/v-form/misc-exposed.vue -->
 <script setup lang="ts">
 import { ref } from "vue";
 
