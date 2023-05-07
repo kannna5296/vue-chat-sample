@@ -3,6 +3,7 @@
 import { ref, onMounted } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import router from "@/router/index.ts";
+import { User } from "@/components/User";
 
 const email = ref("");
 const password = ref("");
@@ -35,13 +36,14 @@ const submit = async () => {
       console.log(userCredential.user);
       errorMessage.value = "";
 
-      const authInfo = {
-        displayName: userCredential.user.displayName,
-        email: userCredential.user.email,
-        uid: userCredential.user.uid,
-        refreshToken: userCredential.user.refreshToken,
-      };
-      sessionStorage.setItem("user", JSON.stringify(authInfo));
+      const user = new User(
+        userCredential.user.displayName ? userCredential.user.displayName : "",
+        userCredential.user.email ? userCredential.user.email : "",
+        "",
+        userCredential.user.uid,
+        userCredential.user.refreshToken
+      );
+      sessionStorage.setItem("user", JSON.stringify(user));
 
       router.push("/");
     })

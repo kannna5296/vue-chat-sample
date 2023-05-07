@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ref as vueref, Ref, onMounted } from "vue";
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import {
   getStorage,
   ref as firebaseref,
   uploadBytes,
   getDownloadURL,
-  updateProfile,
 } from "firebase/storage";
 import router from "@/router/index.ts";
+import { User } from "@/components/User.ts";
 
 const drawer = vueref();
-//TODO userっていう型で(mail,nameを持たせたい)
-const displayName = vueref("");
 const fileInput = vueref();
+
+// onMountedでsessionUserを元に初期化してるけど、もうちょい綺麗に出来ないか？
+const currentUser: Ref<User> = vueref<User>(new User("", "", "", "", ""));
 
 type Link = {
   icon: string;
@@ -47,7 +48,7 @@ const changeIcon = () => {
   fileInput.value.click();
 };
 
-const updateIcon = () => {
+const updateIcon = async () => {
   console.log("updateIcon call!");
   const user = getAuth();
   if (!user) {
@@ -62,7 +63,7 @@ const updateIcon = () => {
 
   const storage = getStorage();
   const iconImageRef = firebaseref(storage, filePath);
-  uploadBytes(iconImageRef, file)
+  await uploadBytes(iconImageRef, file)
     .then((snapshot) => {
       console.log("Uploaded a blob or file!");
       console.log(snapshot);
@@ -71,27 +72,35 @@ const updateIcon = () => {
       console.log(error);
     });
 
-  //firebase側の情報も更新
-  const photoUrl = getDownloadURL(iconImageRef).then((url) => {
+  const photoUrl = await getDownloadURL(iconImageRef).then((url) => {
     console.log(url);
     return url;
   });
-  updateProfile(user.currentUser, {
-    photoURL: photoUrl,
-  });
+
+  if (user.currentUser) {
+    //firebase側の情報も更新
+    updateProfile(user.currentUser, {
+      photoURL: photoUrl,
+    });
+    console.log("firebase側更新完了");
+  }
+  // sessionStorage側の情報も更新
+  currentUser.value.photoUrl = photoUrl;
+  sessionStorage.setItem("user", JSON.stringify(currentUser.value));
+  console.log("sessionStorage更新完了");
 };
 
 onMounted(() => {
   const sessionUser = sessionStorage.getItem("user");
   if (sessionUser) {
-    const user = JSON.parse(sessionUser);
-    console.log("mouted!", user.email);
-    displayName.value = user.displayName;
+    const user = JSON.parse(sessionUser) as User;
+    currentUser.value = user;
   } else {
     router.push("/");
   }
 });
 </script>
+
 <template>
   <v-navigation-drawer v-model="drawer">
     <v-sheet color="grey-lighten-4" class="pa-4">
@@ -106,7 +115,7 @@ onMounted(() => {
         <v-icon icon="mdi-account-circle" @click="changeIcon"></v-icon>
       </v-avatar>
 
-      <div>{{ displayName }}</div>
+      <div>{{ currentUser.diaplayName }}</div>
     </v-sheet>
 
     <v-divider></v-divider>
