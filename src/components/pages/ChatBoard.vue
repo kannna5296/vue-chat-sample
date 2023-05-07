@@ -10,6 +10,7 @@ import {
   query,
   addDoc,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import SideBar from "@/components/SideBar.vue";
@@ -30,17 +31,10 @@ const currentUser: Ref<User> = ref<User>(new User("", "", "", "", ""));
 //TODO onMountedでええんか？？
 onMounted(async () => {
   getRoomInfos();
-  getMessages();
+  // getMessages();
   getAuth();
+  syncMessages();
 });
-
-const getAuth = () => {
-  const sessionUser = sessionStorage.getItem("user");
-  if (sessionUser) {
-    const user = JSON.parse(sessionUser) as User;
-    currentUser.value = user;
-  }
-};
 
 const getRoomInfos = async () => {
   //ルーム情報を一つとってくる
@@ -59,24 +53,30 @@ const getRoomInfos = async () => {
   }
 };
 
-const getMessages = async () => {
-  // roomIdはstring出ない可能性があるのでチェック
-  if (typeof roomId === "string") {
-    //サブコレクションにアクセス
-    const messagesSnapShot = await getDocs(
-      query(
-        collection(db, "rooms", roomId, "messages"),
-        orderBy("createdAt", "asc")
-      )
-    );
-    messagesSnapShot.docs.forEach((value) => {
-      messages.value.push(value.data().message);
-    });
-  } else {
-    await router.push("/");
+const getAuth = () => {
+  const sessionUser = sessionStorage.getItem("user");
+  if (sessionUser) {
+    const user = JSON.parse(sessionUser) as User;
+    currentUser.value = user;
   }
 };
 
+const syncMessages = () => {
+  if (typeof roomId === "string") {
+    onSnapshot(
+      query(
+        collection(db, "rooms", roomId, "messages"),
+        orderBy("createdAt", "asc")
+      ),
+      (querySnapShot) => {
+        //Firestore側に変更があったらリアルタイムにメッセージをとってくる
+        querySnapShot.docChanges().forEach((change) => {
+          messages.value.push(change.doc.data().message);
+        });
+      }
+    );
+  }
+};
 const isValidText = computed(() => {
   if (inputtingChatData.value.length <= 0) {
     return false;
@@ -106,8 +106,6 @@ const submit = async () => {
         console.log(error);
       });
   }
-  //再度リロードさせるのがいいんかな？？？重くなるけど...
-  messages.value.push(inputtingChatData.value);
   inputtingChatData.value = "";
 };
 </script>
