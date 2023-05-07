@@ -1,21 +1,39 @@
 <script setup lang="ts">
-import { ref, Ref, computed } from "vue";
+import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import { chatsConverter } from "@/firebase/converter/ChatsConverter.ts";
 import SideBar from "@/components/SideBar.vue";
+import router from "@/router/index.ts";
+import { roomsConverter } from "@/firebase/converter/RoomsConverter";
+// import { Room } from "@/firebase/converter/RoomsConverter";
 
 const cards = ref(["today"]);
 
 const route = useRoute();
-const userId = route.query.user_id;
-
+const roomId = route.query.room_id;
 const inputtingChatData = ref("");
 
 const messages: Ref<string[]> = ref([]);
+const roomName = ref();
 
-async () => {
+//TODO onMountedでええんか？？
+onMounted(async () => {
+  //ルーム情報を一つとってくる
+  // roomIdはstring出ない可能性があるのでチェック
+  if (typeof roomId === "string") {
+    const docRef = doc(db, "rooms", roomId).withConverter(roomsConverter);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      roomName.value = docSnap.data().name;
+    } else {
+      await router.push("/");
+    }
+  }
+
+  //過去のチャット情報Listとってくる
   //もうちょいスッキリ書きたい
   const chatsCollection = collection(db, "chats").withConverter(chatsConverter);
   const chatsSanpShot = await getDocs(chatsCollection);
@@ -25,7 +43,7 @@ async () => {
     return value.message;
   });
   messages.value.push(...messagesFromDb);
-};
+});
 
 const isValidText = computed(() => {
   if (inputtingChatData.value.length <= 0) {
@@ -48,7 +66,7 @@ const submit = () => {
 <template>
   <SideBar />
   <v-main>
-    <div>ユーザID: {{ userId }}</div>
+    <h1>{{ roomName }}</h1>
     <v-container class="py-8 px-6" fluid>
       <v-row>
         <v-col v-for="card in cards" :key="card" cols="12">
