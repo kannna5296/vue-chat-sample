@@ -1,6 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from "vue-router";
 import About from "@/components/About.vue";
-import UserList from "@/components/pages/UserList.vue";
+import RoomList from "@/components/pages/RoomList.vue";
 import ChatBoard from "@/components/pages/ChatBoard.vue";
 import Login from "@/components/pages/Login.vue";
 import Signup from "@/components/pages/Signup.vue";
@@ -8,8 +8,8 @@ import Signup from "@/components/pages/Signup.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "userlist",
-    component: UserList,
+    name: "roomList",
+    component: RoomList,
     meta: { requiresAuth: true },
   },
   {
