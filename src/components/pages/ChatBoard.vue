@@ -27,10 +27,14 @@ const roomName = ref(); //TODO 型指定したい
 
 //TODO onMountedでええんか？？
 onMounted(async () => {
+  getRoomInfos();
+  getMessages();
+});
+
+const getRoomInfos = async () => {
   //ルーム情報を一つとってくる
   // roomIdはstring出ない可能性があるのでチェック
   if (typeof roomId === "string") {
-    //TODO 早期リターンしたい
     const roomRef = doc(db, "rooms", roomId).withConverter(roomsConverter);
     const roomSnap = await getDoc(roomRef);
 
@@ -39,7 +43,14 @@ onMounted(async () => {
     } else {
       await router.push("/");
     }
+  } else {
+    await router.push("/");
+  }
+};
 
+const getMessages = async () => {
+  // roomIdはstring出ない可能性があるのでチェック
+  if (typeof roomId === "string") {
     //サブコレクションにアクセス
     const messagesSnapShot = await getDocs(
       query(
@@ -53,7 +64,7 @@ onMounted(async () => {
   } else {
     await router.push("/");
   }
-});
+};
 
 const isValidText = computed(() => {
   if (inputtingChatData.value.length <= 0) {
