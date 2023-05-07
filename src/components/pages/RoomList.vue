@@ -17,7 +17,7 @@ const getRooms = async () => {
   roomsSnapshot.docs.forEach((doc) => {
     const room = doc.data();
     room.id = doc.id;
-    rooms.value.push(doc.data());
+    rooms.value.push(room);
   });
 };
 
