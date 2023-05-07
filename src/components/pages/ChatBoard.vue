@@ -3,7 +3,7 @@ import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
-import { chatsConverter } from "@/firebase/converter/ChatsConverter.ts";
+import { messagesConverter } from "@/firebase/converter/onverter.ts";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router/index.ts";
 import { roomsConverter } from "@/firebase/converter/RoomsConverter";
@@ -22,21 +22,26 @@ onMounted(async () => {
   //ルーム情報を一つとってくる
   // roomIdはstring出ない可能性があるのでチェック
   if (typeof roomId === "string") {
-    const docRef = doc(db, "rooms", roomId).withConverter(roomsConverter);
-    const docSnap = await getDoc(docRef);
+    //TODO 早期リターンしたい
+    const roomRef = doc(db, "rooms", roomId).withConverter(roomsConverter);
+    const roomSnap = await getDoc(roomRef);
 
-    if (docSnap.exists()) {
-      roomName.value = docSnap.data().name;
+    if (roomSnap.exists()) {
+      roomName.value = roomSnap.data().name;
     } else {
       await router.push("/");
     }
+
+    // const messageSnapShot = roomSnap.collection;
   }
 
   //過去のチャット情報Listとってくる
   //もうちょいスッキリ書きたい
-  const chatsCollection = collection(db, "chats").withConverter(chatsConverter);
-  const chatsSanpShot = await getDocs(chatsCollection);
-  const res = chatsSanpShot.docs.map((docs) => docs.data());
+  // const chatsCollection = collection(db, "messages").withConverter(
+  //   messagesConverter
+  // );
+  // const chatsSanpShot = await getDocs(chatsCollection);
+  // const res = chatsSanpShot.docs.map((docs) => docs.data());
 
   const messagesFromDb = res.map((value) => {
     return value.message;
