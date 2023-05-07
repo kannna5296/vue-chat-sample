@@ -32,15 +32,8 @@ onMounted(async () => {
   getRoomInfos();
   getMessages();
   getAuth();
+  syncMessages();
 });
-
-const getAuth = () => {
-  const sessionUser = sessionStorage.getItem("user");
-  if (sessionUser) {
-    const user = JSON.parse(sessionUser) as User;
-    currentUser.value = user;
-  }
-};
 
 const getRoomInfos = async () => {
   //ルーム情報を一つとってくる
@@ -77,6 +70,15 @@ const getMessages = async () => {
   }
 };
 
+const getAuth = () => {
+  const sessionUser = sessionStorage.getItem("user");
+  if (sessionUser) {
+    const user = JSON.parse(sessionUser) as User;
+    currentUser.value = user;
+  }
+};
+
+const syncMessages = () => {};
 const isValidText = computed(() => {
   if (inputtingChatData.value.length <= 0) {
     return false;
