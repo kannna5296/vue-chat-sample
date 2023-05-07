@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, Ref, computed, onMounted } from "vue";
+import { ref, Ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
@@ -15,11 +15,7 @@ const inputtingChatData = ref("");
 
 const messages: Ref<string[]> = ref([]);
 
-onMounted(() => {
-  getChats();
-});
-
-const getChats = async () => {
+async () => {
   //もうちょいスッキリ書きたい
   const chatsCollection = collection(db, "chats").withConverter(chatsConverter);
   const chatsSanpShot = await getDocs(chatsCollection);
