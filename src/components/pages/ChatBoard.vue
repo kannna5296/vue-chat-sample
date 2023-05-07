@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router/index.ts";
@@ -33,7 +40,10 @@ onMounted(async () => {
 
     //サブコレクションにアクセス
     const messagesSnapShot = await getDocs(
-      collection(db, "rooms", roomId, "messages")
+      query(
+        collection(db, "rooms", roomId, "messages"),
+        orderBy("createdAt", "asc")
+      )
     );
     messagesSnapShot.docs.forEach((value) => {
       messages.value.push(value.data().message);
