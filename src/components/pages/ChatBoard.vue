@@ -15,6 +15,7 @@ import { db } from "@/firebase/firebase.ts";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router/index.ts";
 import { roomsConverter } from "@/firebase/converter/RoomsConverter";
+import { User } from "@/components/User.ts";
 
 const cards = ref(["today"]);
 
@@ -23,13 +24,23 @@ const roomId = route.query.room_id;
 const inputtingChatData = ref("");
 
 const messages: Ref<string[]> = ref([]);
-const roomName = ref(); //TODO 型指定したい
+const roomName = ref(""); //TODO 型指定したい
+const currentUser: Ref<User> = ref<User>(new User("", "", "", "", ""));
 
 //TODO onMountedでええんか？？
 onMounted(async () => {
   getRoomInfos();
   getMessages();
+  getAuth();
 });
+
+const getAuth = () => {
+  const sessionUser = sessionStorage.getItem("user");
+  if (sessionUser) {
+    const user = JSON.parse(sessionUser) as User;
+    currentUser.value = user;
+  }
+};
 
 const getRoomInfos = async () => {
   //ルーム情報を一つとってくる
@@ -82,8 +93,8 @@ const submit = async () => {
     console.log(inputtingChatData.value);
     await addDoc(collection(db, "rooms", roomId, "messages"), {
       message: inputtingChatData.value,
-      name: "",
-      photUrl: "",
+      name: currentUser.value.diaplayName,
+      photoUrl: currentUser.value.photoUrl,
       createdAt: Timestamp.now(),
     })
       .then((result) => {
@@ -95,6 +106,8 @@ const submit = async () => {
         console.log(error);
       });
   }
+  //再度リロードさせるのがいいんかな？？？重くなるけど...
+  messages.value.push(inputtingChatData.value);
 };
 </script>
 
