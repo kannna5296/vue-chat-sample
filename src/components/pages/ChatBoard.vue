@@ -3,7 +3,6 @@ import { ref, Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
-import { messagesConverter } from "@/firebase/converter/onverter.ts";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router/index.ts";
 import { roomsConverter } from "@/firebase/converter/RoomsConverter";
@@ -32,21 +31,14 @@ onMounted(async () => {
       await router.push("/");
     }
 
-    // const messageSnapShot = roomSnap.collection;
+    //サブコレクションにアクセス
+    const messagesSnapShot = await getDocs(
+      collection(db, "rooms", roomId, "messages")
+    );
+    messagesSnapShot.docs.forEach((value) => {
+      messages.value.push(value.data().message);
+    });
   }
-
-  //過去のチャット情報Listとってくる
-  //もうちょいスッキリ書きたい
-  // const chatsCollection = collection(db, "messages").withConverter(
-  //   messagesConverter
-  // );
-  // const chatsSanpShot = await getDocs(chatsCollection);
-  // const res = chatsSanpShot.docs.map((docs) => docs.data());
-
-  const messagesFromDb = res.map((value) => {
-    return value.message;
-  });
-  messages.value.push(...messagesFromDb);
 });
 
 const isValidText = computed(() => {
