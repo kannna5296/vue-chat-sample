@@ -125,7 +125,9 @@ const submit = async () => {
               <template v-for="message in messages" :key="message">
                 <v-list-item>
                   <template v-slot:prepend>
-                    <v-avatar color="grey-darken-1"></v-avatar>
+                    <v-avatar color="grey-darken-1">
+                      <v-img :src="currentUser.photoUrl" />
+                    </v-avatar>
                   </template>
 
                   <v-list-item-subtitle class="message">
