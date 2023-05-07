@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import { roomsConverter } from "@/firebase/converter/RoomsConverter";
 import { Room } from "@/firebase/converter/RoomsConverter";
+import CreateRoom from "@/components/modal/CreateRoom.vue";
 
 const rooms: Ref<Room[]> = ref([]);
 
@@ -27,7 +28,7 @@ onMounted(() => getRooms());
   <SideBar />
   <v-app-bar app extended>
     <v-toolbar-title>チャットルーム一覧</v-toolbar-title>
-
+    <CreateRoom />
     <v-spacer></v-spacer>
 
     <v-btn icon>
