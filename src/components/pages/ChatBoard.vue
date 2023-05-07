@@ -108,6 +108,7 @@ const submit = async () => {
   }
   //再度リロードさせるのがいいんかな？？？重くなるけど...
   messages.value.push(inputtingChatData.value);
+  inputtingChatData.value = "";
 };
 </script>
 
