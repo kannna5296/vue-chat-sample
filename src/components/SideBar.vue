@@ -112,7 +112,16 @@ onMounted(() => {
           ref="fileInput"
           @change="updateIcon"
         />
-        <v-icon icon="mdi-account-circle" @click="changeIcon"></v-icon>
+        <v-icon
+          icon="mdi-account-circle"
+          @click="changeIcon"
+          v-if="!currentUser.photoUrl"
+        ></v-icon>
+        <img
+          :src="currentUser.photoUrl"
+          v-if="currentUser.photoUrl"
+          @click="changeIcon"
+        />
       </v-avatar>
 
       <div>{{ currentUser.diaplayName }}</div>
