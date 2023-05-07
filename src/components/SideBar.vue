@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { ref, Ref, onMounted } from "vue";
+import { ref as vueref, Ref, onMounted } from "vue";
 import { getAuth, signOut } from "firebase/auth";
+import {
+  getStorage,
+  ref as firebaseref,
+  uploadBytes,
+  getDownloadURL,
+  updateProfile,
+} from "firebase/storage";
 import router from "@/router/index.ts";
 
-const drawer = ref();
+const drawer = vueref();
 //TODO userっていう型で(mail,nameを持たせたい)
-const displayName = ref("");
-const fileInput = ref();
+const displayName = vueref("");
+const fileInput = vueref();
 
 type Link = {
   icon: string;
   text: string;
   to: string;
 };
-const links: Ref<Link[]> = ref([
+const links: Ref<Link[]> = vueref([
   {
     icon: "mdi-inbox-arrow-down",
     text: "Inbox",
@@ -40,6 +47,40 @@ const changeIcon = () => {
   fileInput.value.click();
 };
 
+const updateIcon = () => {
+  console.log("updateIcon call!");
+  const user = getAuth();
+  if (!user) {
+    sessionStorage.removeItem("user");
+    router.push("/login");
+  }
+
+  const file = fileInput.value.files[0];
+  const filePath = "user/" + file.name;
+  console.log(file);
+  console.log(filePath);
+
+  const storage = getStorage();
+  const iconImageRef = firebaseref(storage, filePath);
+  uploadBytes(iconImageRef, file)
+    .then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      console.log(snapshot);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  //firebase側の情報も更新
+  const photoUrl = getDownloadURL(iconImageRef).then((url) => {
+    console.log(url);
+    return url;
+  });
+  updateProfile(user.currentUser, {
+    photoURL: photoUrl,
+  });
+};
+
 onMounted(() => {
   const sessionUser = sessionStorage.getItem("user");
   if (sessionUser) {
@@ -60,6 +101,7 @@ onMounted(() => {
           style="display: none"
           accept="image/jpeg,image/jpg,image/png"
           ref="fileInput"
+          @change="updateIcon"
         />
         <v-icon icon="mdi-account-circle" @click="changeIcon"></v-icon>
       </v-avatar>
