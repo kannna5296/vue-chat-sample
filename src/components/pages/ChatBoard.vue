@@ -8,6 +8,8 @@ import {
   getDoc,
   orderBy,
   query,
+  addDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase.ts";
 import SideBar from "@/components/SideBar.vue";
@@ -48,6 +50,8 @@ onMounted(async () => {
     messagesSnapShot.docs.forEach((value) => {
       messages.value.push(value.data().message);
     });
+  } else {
+    await router.push("/");
   }
 });
 
@@ -62,9 +66,24 @@ const clear = () => {
   inputtingChatData.value = "";
 };
 
-const submit = () => {
+const submit = async () => {
   messages.value.push(inputtingChatData.value);
   inputtingChatData.value = "";
+
+  if (typeof roomId === "string") {
+    await addDoc(collection(db, "rooms", roomId, "messages"), {
+      message: inputtingChatData.value,
+      name: "",
+      photUrl: "",
+      createdAt: Timestamp.now(),
+    })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };
 </script>
 

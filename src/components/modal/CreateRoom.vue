@@ -37,7 +37,7 @@ const onSubmit = async () => {
     });
   }
 
-  // CloudStorageにroom情報を追加
+  // FireStoreにroom情報を追加
   await addDoc(collection(db, "rooms"), {
     name: inputtingName.value,
     thumnailUrl: thumnailUrl,
