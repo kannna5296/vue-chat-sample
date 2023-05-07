@@ -78,10 +78,8 @@ const clear = () => {
 };
 
 const submit = async () => {
-  messages.value.push(inputtingChatData.value);
-  inputtingChatData.value = "";
-
   if (typeof roomId === "string") {
+    console.log(inputtingChatData.value);
     await addDoc(collection(db, "rooms", roomId, "messages"), {
       message: inputtingChatData.value,
       name: "",
@@ -89,9 +87,11 @@ const submit = async () => {
       createdAt: Timestamp.now(),
     })
       .then((result) => {
+        console.log("submit success!");
         console.log(result);
       })
       .catch((error) => {
+        console.log("submit failed!!");
         console.log(error);
       });
   }
