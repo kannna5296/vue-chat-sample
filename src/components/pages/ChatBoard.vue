@@ -7,7 +7,6 @@ import { chatsConverter } from "@/firebase/converter/ChatsConverter.ts";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router/index.ts";
 import { roomsConverter } from "@/firebase/converter/RoomsConverter";
-// import { Room } from "@/firebase/converter/RoomsConverter";
 
 const cards = ref(["today"]);
 
@@ -16,7 +15,7 @@ const roomId = route.query.room_id;
 const inputtingChatData = ref("");
 
 const messages: Ref<string[]> = ref([]);
-const roomName = ref();
+const roomName = ref(); //TODO 型指定したい
 
 //TODO onMountedでええんか？？
 onMounted(async () => {
