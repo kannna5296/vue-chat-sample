@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import router from "@/router/index.ts";
+import MacOSIcon from "../svg/MacOSIcon.vue";
 
 const email = ref("");
 const password = ref("");
@@ -53,6 +54,7 @@ const submit = async () => {
 </script>
 
 <template>
+  <v-icon :icon="MacOSIcon"></v-icon>
   <div class="signup-container">
     <v-card :elevation="10" class="signup-form">
       <v-card-title>Signup</v-card-title>
